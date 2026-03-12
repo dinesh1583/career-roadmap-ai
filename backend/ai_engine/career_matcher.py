@@ -1,30 +1,28 @@
 import pandas as pd
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
 
 
-def recommend_career(user_skills):
+def match_career(user_skills):
 
-    # Load careers dataset
     data = pd.read_csv("dataset/careers.csv")
 
-    # Get skills column
-    career_skills = data["skills"].tolist()
+    best_match = None
+    best_score = 0
 
-    # Combine dataset skills with user skills
-    documents = career_skills + [" ".join(user_skills)]
+    for _, row in data.iterrows():
 
-    # Convert text to TF-IDF vectors
-    vectorizer = TfidfVectorizer()
-    tfidf_matrix = vectorizer.fit_transform(documents)
+        career = row["career"]
+        career_skills = row["skills"].lower().split()
 
-    # Calculate cosine similarity
-    similarity = cosine_similarity(tfidf_matrix[-1], tfidf_matrix[:-1])
+        match_count = 0
 
-    # Find best matching career
-    best_index = similarity.argmax()
+        for skill in user_skills:
+            if skill in career_skills:
+                match_count += 1
 
-    best_career = data.iloc[best_index]["career"]
-    score = similarity[0][best_index]
+        score = match_count / len(career_skills)
 
-    return best_career, round(score * 100, 2)
+        if score > best_score:
+            best_score = score
+            best_match = career
+
+    return best_match, round(best_score * 100, 2)
