@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from backend.ai_engine.resume_parser import parse_resume
 from backend.ai_engine.skill_extractor import extract_skills
@@ -13,13 +14,26 @@ from backend.ai_engine.career_visualizer import generate_career_path
 app = FastAPI()
 
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 @app.get("/")
 def home():
+
     return {"message": "AI Career Roadmap API Running"}
 
 
 @app.post("/analyze_resume/")
 def analyze_resume(file_path: str):
+
+    if not file_path:
+        return {"error": "Please provide a resume file path"}
 
     resume_text = parse_resume(file_path)
 
