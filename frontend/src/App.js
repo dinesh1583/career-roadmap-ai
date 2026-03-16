@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./App.css";
 
 function App() {
 
@@ -16,18 +17,15 @@ function App() {
 
       const response = await fetch(
         `http://127.0.0.1:8000/analyze_resume/?file_path=${resumePath}`,
-        {
-          method: "POST"
-        }
+        { method: "POST" }
       );
 
       const data = await response.json();
-
       setResult(data);
 
     } catch (error) {
 
-      console.error("Error analyzing resume:", error);
+      console.error(error);
       alert("Error analyzing resume");
 
     }
@@ -35,56 +33,78 @@ function App() {
   };
 
   return (
-    <div style={{ padding: "40px", fontFamily: "Arial" }}>
+    <div className="container">
 
-      <h1>AI Career Roadmap Assistant</h1>
+      <h1 className="title">AI Career Roadmap Assistant</h1>
 
-      <input
-        type="text"
-        placeholder="Enter Resume Path (example: backend/John Doe.pdf)"
-        value={resumePath}
-        onChange={(e) => setResumePath(e.target.value)}
-        style={{ width: "400px", padding: "10px" }}
-      />
+      <div className="input-section">
 
-      <button
-        onClick={analyzeResume}
-        style={{ marginLeft: "10px", padding: "10px 20px" }}
-      >
-        Analyze Resume
-      </button>
+        <input
+          type="text"
+          placeholder="Enter Resume Path (example: backend/John Doe.pdf)"
+          value={resumePath}
+          onChange={(e) => setResumePath(e.target.value)}
+        />
+
+        <button onClick={analyzeResume}>Analyze Resume</button>
+
+      </div>
 
       {result && (
 
-        <div style={{ marginTop: "30px" }}>
+        <div className="result-container">
 
-          <h2>Analysis Result</h2>
+          <div className="card">
 
-          <p><b>Recommended Career:</b> {result.recommended_career}</p>
-          <p><b>Match Score:</b> {result.match_score}%</p>
+            <h2>Recommended Career</h2>
+            <p>{result.recommended_career}</p>
 
-          <h3>Detected Skills</h3>
-          <ul>
-            {result.detected_skills.map((skill, index) => (
-              <li key={index}>{skill}</li>
-            ))}
-          </ul>
+          </div>
 
-          <h3>Missing Skills</h3>
-          <ul>
-            {result.missing_skills.map((skill, index) => (
-              <li key={index}>{skill}</li>
-            ))}
-          </ul>
+          <div className="card">
 
-          <h3>Roadmap</h3>
-          <ul>
-            {result.roadmap.map((step, index) => (
-              <li key={index}>
-                <b>{step.phase}</b> - {step.goal}
-              </li>
-            ))}
-          </ul>
+            <h2>Match Score</h2>
+            <p>{result.match_score}%</p>
+
+          </div>
+
+          <div className="card">
+
+            <h2>Detected Skills</h2>
+
+            <ul>
+              {result.detected_skills.map((skill, index) => (
+                <li key={index}>{skill}</li>
+              ))}
+            </ul>
+
+          </div>
+
+          <div className="card">
+
+            <h2>Missing Skills</h2>
+
+            <ul>
+              {result.missing_skills.slice(0,10).map((skill, index) => (
+                <li key={index}>{skill}</li>
+              ))}
+            </ul>
+
+          </div>
+
+          <div className="card">
+
+            <h2>Career Roadmap</h2>
+
+            <ul>
+              {result.roadmap.slice(0,6).map((step, index) => (
+                <li key={index}>
+                  <b>{step.phase}</b> — {step.goal}
+                </li>
+              ))}
+            </ul>
+
+          </div>
 
         </div>
 
