@@ -1,6 +1,8 @@
-import React from "react";
 import "./App.css";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+
+import Sidebar from "./components/Sidebar";
+import Navbar from "./components/Navbar";
 
 import Dashboard from "./pages/Dashboard";
 import ResumePage from "./pages/ResumePage";
@@ -8,26 +10,21 @@ import AnalysisPage from "./pages/AnalysisPage";
 
 function App() {
   return (
-    <div className="dashboard">
+    <div className="app">
 
-      {/* Sidebar */}
-      <div className="sidebar">
-        <h2>AI Navigator</h2>
+      <Sidebar />
 
-        <ul>
-          <li><Link to="/">Dashboard</Link></li>
-          <li><Link to="/upload">Upload Resume</Link></li>
-          <li><Link to="/analysis">Career Analysis</Link></li>
-        </ul>
-      </div>
+      <div className="content">
+        <Navbar />
 
-      {/* Main */}
-      <div className="main">
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/upload" element={<ResumePage />} />
-          <Route path="/analysis" element={<AnalysisPage />} />
-        </Routes>
+        <div className="page">
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/upload" element={<ResumePage />} />
+            <Route path="/analysis" element={<AnalysisPage />} />
+          </Routes>
+        </div>
+
       </div>
 
     </div>
