@@ -1,5 +1,6 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
+import { motion } from "framer-motion";
 
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
@@ -17,13 +18,18 @@ function App() {
       <div className="content">
         <Navbar />
 
-        <div className="page">
+        <motion.div
+          className="page"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          key={window.location.pathname}
+        >
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/upload" element={<ResumePage />} />
             <Route path="/analysis" element={<AnalysisPage />} />
           </Routes>
-        </div>
+        </motion.div>
 
       </div>
 

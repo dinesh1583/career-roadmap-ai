@@ -23,23 +23,30 @@ function Dashboard() {
     >
       <h2>🚀 Dashboard</h2>
 
-      {/* Stats Cards */}
-      <div className="cards">
-        <div className="card stat">
+      {/* Cards */}
+      <motion.div
+        className="cards"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ staggerChildren: 0.2 }}
+      >
+
+        <motion.div className="card stat" whileHover={{ scale: 1.05 }}>
           <h3>Career</h3>
           <p>Data Scientist</p>
-        </div>
+        </motion.div>
 
-        <div className="card stat">
+        <motion.div className="card stat" whileHover={{ scale: 1.05 }}>
           <h3>Match Score</h3>
           <p>85%</p>
-        </div>
+        </motion.div>
 
-        <div className="card stat">
+        <motion.div className="card stat" whileHover={{ scale: 1.05 }}>
           <h3>Skills</h3>
           <p>12</p>
-        </div>
-      </div>
+        </motion.div>
+
+      </motion.div>
 
       {/* Chart */}
       <div className="card chart">
@@ -54,6 +61,7 @@ function Dashboard() {
           </BarChart>
         </ResponsiveContainer>
       </div>
+
     </motion.div>
   );
 }
