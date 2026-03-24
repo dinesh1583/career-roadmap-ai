@@ -1,44 +1,81 @@
-body {
+/* ===== ROOT COLORS ===== */
+:root {
+  --primary: #2563eb;
+  --secondary: #06b6d4;
+  --bg-light: #f1f5f9;
+  --bg-dark: #0f172a;
+  --card-light: rgba(255,255,255,0.7);
+  --card-dark: rgba(30,41,59,0.7);
+  --text-light: #0f172a;
+  --text-dark: #f8fafc;
+}
+
+/* ===== BODY ===== */
+body.light {
   margin: 0;
   font-family: 'Segoe UI';
   background: linear-gradient(to right, #eef2ff, #f8fafc);
+  color: var(--text-light);
 }
 
-/* Layout */
+body.dark {
+  margin: 0;
+  font-family: 'Segoe UI';
+  background: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+/* ===== LAYOUT ===== */
 .app {
   display: flex;
-}
-
-.sidebar {
-  width: 230px;
-  background: #0f172a;
-  color: white;
-  height: 100vh;
-  padding: 20px;
-}
-
-.sidebar a {
-  color: white;
-  text-decoration: none;
 }
 
 .content {
   flex: 1;
 }
 
-.navbar {
-  background: white;
-  padding: 15px;
-  display: flex;
-  justify-content: space-between;
-  box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
-}
-
 .page {
   padding: 20px;
 }
 
-/* Cards */
+/* ===== SIDEBAR ===== */
+.sidebar {
+  width: 240px;
+  background: linear-gradient(180deg, #0f172a, #1e293b);
+  color: white;
+  height: 100vh;
+  padding: 20px;
+}
+
+.sidebar a {
+  display: block;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 8px;
+  color: white;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+  background: var(--card-light);
+  backdrop-filter: blur(10px);
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
+}
+
+body.dark .navbar {
+  background: var(--card-dark);
+}
+
+/* ===== CARDS ===== */
 .cards {
   display: flex;
   gap: 20px;
@@ -48,37 +85,67 @@ body {
 .stat {
   flex: 1;
   text-align: center;
-  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
   color: white;
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 20px;
+  transition: 0.3s;
 }
 
+.stat:hover {
+  transform: translateY(-5px);
+}
+
+/* ===== GLASS CARD ===== */
+.card {
+  background: var(--card-light);
+  backdrop-filter: blur(15px);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0px 10px 25px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+body.dark .card {
+  background: var(--card-dark);
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0px 15px 30px rgba(0,0,0,0.2);
+}
+
+/* ===== CHART ===== */
 .chart {
   margin-top: 30px;
 }
 
-/* Hover Effects */
-.card {
-  transition: all 0.3s ease;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0px 8px 20px rgba(0,0,0,0.15);
-}
-
-/* Button Animation */
+/* ===== BUTTON ===== */
 button {
-  padding: 10px;
-  background: #2563eb;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
   color: white;
   border: none;
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 button:hover {
   transform: scale(1.05);
-  background: #1d4ed8;
+  opacity: 0.9;
+}
+
+/* ===== TEXT ===== */
+h2 {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+p {
+  color: #64748b;
+}
+
+body.dark p {
+  color: #cbd5f5;
 }
