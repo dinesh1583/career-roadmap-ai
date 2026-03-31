@@ -1,25 +1,33 @@
-import React, { useState } from "react";
-import "../pages/ResumePage.css";
+import { useState } from "react";
+import axios from "axios";
+import "./ResumePage.css";
+import { motion } from "framer-motion";
+
+const Skeleton = () => {
+  return <div className="skeleton-card"></div>;
+};
 
 function ResumePage() {
   const [filePath, setFilePath] = useState("");
-  const [result, setResult] = useState(null);
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const handleAnalyze = async () => {
+  const analyze = async () => {
+    if (!filePath) {
+      alert("Please enter file path");
+      return;
+    }
+
     setLoading(true);
+    setData(null);
 
     try {
-      const response = await fetch(
-        `http://127.0.0.1:8000/analyze_resume/?file_path=${filePath}`,
-        { method: "POST" }
+      const res = await axios.post(
+        `http://127.0.0.1:8000/analyze_resume/?file_path=${filePath}`
       );
-
-      const data = await response.json();
-      setResult(data);
-
-    } catch (error) {
-      console.error(error);
+      setData(res.data);
+    } catch (err) {
+      alert("Error analyzing resume");
     }
 
     setLoading(false);
@@ -27,32 +35,70 @@ function ResumePage() {
 
   return (
     <div className="container">
-      <h2>🚀 AI Resume Analyzer</h2>
+      <h2>📄 Resume Analyzer</h2>
 
       <input
-        type="text"
-        placeholder="Enter file path"
+        placeholder="Enter resume path..."
         value={filePath}
         onChange={(e) => setFilePath(e.target.value)}
       />
+      <button onClick={analyze}>Analyze</button>
 
-      <button onClick={handleAnalyze}>Analyze</button>
-
-      {loading && <p>⏳ Analyzing Resume...</p>}
-
-      {result && (
+      {/* Loading Skeleton */}
+      {loading && (
         <div className="results">
+          <Skeleton />
+          <Skeleton />
+          <Skeleton />
+        </div>
+      )}
 
-          <div className="card">
-            <h3>🎯 Career</h3>
-            <p>{result.recommended_career}</p>
-          </div>
+      {/* Results */}
+      {data && (
+        <div className="results">
+          <motion.div
+            className="card"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <h3>Detected Skills</h3>
+            <div className="tags">
+              {data.detected_skills.map((s, i) => (
+                <span key={i}>{s}</span>
+              ))}
+            </div>
+          </motion.div>
 
-          <div className="card">
-            <h3>✅ Skills</h3>
-            <p>{result.detected_skills?.join(", ")}</p>
-          </div>
+          <motion.div
+            className="card"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <h3>Missing Skills</h3>
+            <div className="tags missing">
+              {data.missing_skills.slice(0, 10).map((s, i) => (
+                <span key={i}>{s}</span>
+              ))}
+            </div>
+          </motion.div>
 
+          <motion.div
+            className="card"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <h3>Career</h3>
+            <p>{data.recommended_career}</p>
+
+            <div className="progress-bar">
+              <div
+                className="progress"
+                style={{ width: `${data.match_score}%` }}
+              ></div>
+            </div>
+
+            <p>{data.match_score}% Match</p>
+          </motion.div>
         </div>
       )}
     </div>

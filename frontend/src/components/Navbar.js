@@ -1,19 +1,15 @@
-import { useState, useEffect } from "react";
-
 function Navbar() {
-  const [darkMode, setDarkMode] = useState(false);
+  const logout = () => {
+    localStorage.removeItem("user");
 
-  useEffect(() => {
-    document.body.className = darkMode ? "dark" : "light";
-  }, [darkMode]);
+    // ✅ Redirect after logout
+    window.location.href = "/login";
+  };
 
   return (
     <div className="navbar">
-      <h3>🚀 AI Career Navigator</h3>
-
-      <button onClick={() => setDarkMode(!darkMode)}>
-        {darkMode ? "☀ Light" : "🌙 Dark"}
-      </button>
+      <h3>AI Career Navigator</h3>
+      <button onClick={logout}>Logout</button>
     </div>
   );
 }

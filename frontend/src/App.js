@@ -1,6 +1,5 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
-import { motion } from "framer-motion";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
@@ -8,31 +7,47 @@ import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
 import ResumePage from "./pages/ResumePage";
 import AnalysisPage from "./pages/AnalysisPage";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 function App() {
+  const isLoggedIn = localStorage.getItem("user");
+
   return (
     <div className="app">
 
-      <Sidebar />
+      {/* ✅ Show Sidebar only after login */}
+      {isLoggedIn && <Sidebar />}
 
       <div className="content">
-        <Navbar />
+        {isLoggedIn && <Navbar />}
 
-        <motion.div
-          className="page"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          key={window.location.pathname}
-        >
+        <div className="page">
           <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/upload" element={<ResumePage />} />
-            <Route path="/analysis" element={<AnalysisPage />} />
+
+            {/* ✅ Default route */}
+            <Route
+              path="/"
+              element={isLoggedIn ? <Dashboard /> : <Navigate to="/login" />}
+            />
+
+            {/* 🔐 Protected routes */}
+            <Route
+              path="/upload"
+              element={isLoggedIn ? <ResumePage /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/analysis"
+              element={isLoggedIn ? <AnalysisPage /> : <Navigate to="/login" />}
+            />
+
+            {/* 🔓 Public routes */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+
           </Routes>
-        </motion.div>
-
+        </div>
       </div>
-
     </div>
   );
 }

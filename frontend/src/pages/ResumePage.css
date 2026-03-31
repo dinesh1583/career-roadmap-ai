@@ -1,7 +1,6 @@
 /* Container */
 .container {
   padding: 25px;
-  animation: fadeIn 0.5s ease-in-out;
 }
 
 /* Input */
@@ -11,13 +10,6 @@ input {
   margin-right: 10px;
   border-radius: 8px;
   border: 1px solid #cbd5f5;
-  outline: none;
-  transition: 0.3s;
-}
-
-input:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 5px rgba(59,130,246,0.4);
 }
 
 /* Button */
@@ -28,15 +20,18 @@ button {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: 0.3s;
 }
 
 button:hover {
   transform: scale(1.05);
-  background: linear-gradient(135deg, #2563eb, #0891b2);
 }
 
-/* Results Layout */
+button:active {
+  transform: scale(0.95);
+}
+
+/* Results */
 .results {
   margin-top: 25px;
   display: grid;
@@ -46,45 +41,36 @@ button:hover {
 
 /* Cards */
 .card {
-  background: rgba(255, 255, 255, 0.75);
+  background: rgba(255,255,255,0.7);
   backdrop-filter: blur(10px);
   padding: 18px;
   border-radius: 14px;
   box-shadow: 0px 6px 15px rgba(0,0,0,0.1);
-  transition: all 0.3s ease;
+  transition: 0.3s;
 }
 
 .card:hover {
   transform: translateY(-6px);
-  box-shadow: 0px 12px 25px rgba(0,0,0,0.15);
+  box-shadow: 0px 15px 40px rgba(37,99,235,0.3);
 }
 
 /* Tags */
 .tags span {
   background: #e0e7ff;
-  color: #1e3a8a;
   padding: 6px 12px;
   margin: 5px;
   display: inline-block;
   border-radius: 20px;
-  font-size: 13px;
-  transition: 0.3s;
 }
 
-.tags span:hover {
-  background: #c7d2fe;
-}
-
-/* Missing Skills */
 .tags.missing span {
-  background: #fee2e2;
-  color: #991b1b;
+  background: #fecaca;
 }
 
-/* Progress Bar */
+/* Progress */
 .progress-bar {
   width: 100%;
-  height: 12px;
+  height: 10px;
   background: #e5e7eb;
   border-radius: 10px;
   margin: 10px 0;
@@ -92,44 +78,25 @@ button:hover {
 
 .progress {
   height: 100%;
-  background: linear-gradient(90deg, #22c55e, #16a34a);
+  background: #22c55e;
   border-radius: 10px;
 }
 
-/* Timeline */
-.timeline {
-  border-left: 3px solid #3b82f6;
-  padding-left: 12px;
-  margin-bottom: 12px;
-  position: relative;
+/* Skeleton */
+.skeleton-card {
+  height: 120px;
+  border-radius: 12px;
+  background: linear-gradient(
+    90deg,
+    #e5e7eb 25%,
+    #f3f4f6 50%,
+    #e5e7eb 75%
+  );
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
 }
 
-.timeline::before {
-  content: "";
-  width: 10px;
-  height: 10px;
-  background: #3b82f6;
-  border-radius: 50%;
-  position: absolute;
-  left: -6px;
-  top: 5px;
-}
-
-/* Loading */
-.loading {
-  margin-top: 15px;
-  font-weight: bold;
-  color: #3b82f6;
-}
-
-/* Animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
