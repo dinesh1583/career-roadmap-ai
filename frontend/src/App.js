@@ -11,7 +11,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 
 function App() {
-  const isLoggedIn = localStorage.getItem("user");
+  const isLoggedIn = localStorage.getItem("token");
 
   return (
     <div className="app">

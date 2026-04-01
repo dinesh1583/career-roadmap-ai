@@ -1,6 +1,6 @@
 function Navbar() {
   const logout = () => {
-    localStorage.removeItem("user");
+    localStorage.removeItem("token");
 
     // ✅ Redirect after logout
     window.location.href = "/login";

@@ -15,14 +15,17 @@ function Login() {
 
       console.log(res.data); // debug
 
-      if (res.data.message === "Login successful") {
-        localStorage.setItem("user", email);
+      // ✅ NEW JWT LOGIC
+      if (res.data.token) {
+        // store token
+        localStorage.setItem("token", res.data.token);
 
-        // ✅ FORCE REDIRECT (FINAL FIX)
+        // redirect to dashboard
         window.location.href = "/";
       } else {
         alert("Invalid credentials");
       }
+
     } catch (error) {
       console.error(error);
       alert("Login failed");
