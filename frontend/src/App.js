@@ -9,6 +9,7 @@ import ResumePage from "./pages/ResumePage";
 import AnalysisPage from "./pages/AnalysisPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Profile from "./pages/Profile";
 
 function App() {
   const isLoggedIn = localStorage.getItem("token");
@@ -44,6 +45,12 @@ function App() {
             {/* 🔓 Public routes */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+
+            {/* 🔐 Protected Profile route */}
+            <Route
+              path="/profile"
+              element={isLoggedIn ? <Profile /> : <Navigate to="/login" />}
+            />
 
           </Routes>
         </div>
